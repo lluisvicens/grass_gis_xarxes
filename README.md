@@ -16,7 +16,7 @@ Ubicació d'un conjunt d'explotacions. Font: Elaboració pròpia
 - En acabat, procedim a importar les tres capes amb la comanda o eina **_v.import_**
 - Carreguem i simbolitzem totes les capes
 
-#### Creant la xarxa
+#### Crear la xarxa: assignació de costos
 
 - _**v.clean**_ per segmentar tots els arcs a cada intersecció:
 ```sql
@@ -39,4 +39,15 @@ UPDATE xarxa_clean SET velocitat = 30 WHERE  cat_via = 4
 ```sql
 UPDATE xarxa_clean SET cost =  (longitud  /  (velocitat  * 1000 / 3600))
 ```
-- werw
+- Amb aquestes senzilles passes ja tenim la xarxa preparada, degudament segmentada, i amb la taula d'atributs completa en la qual hem afegit un cap de velocitat màxima de la via, longitud de cadascun dels arcs, i el cost que suposa recórrer cadascun dels arcs.
+
+#### Crear la xarxa: connectar nodes a la xarxa
+
+- A més de la capa de carreteres, disposem de dues capes de punts que voldrem connectar a la xarxa, i que representen les ubicacions de les plantes de gestió de les explotacions a les quals cal donar servei. El procés a seguir serà connectar les plantes de gestió a _layer 2_ de la xarxa (els arcs estan emmagatzemats al _layer 1_), i les explotacions al _layer 3_, i posteriorment vincularem les seves taules d'atributs.
+
+- Accedim al menú Vector > Network Analysis > Network preparation. A la finestra emergent, dins la pestanya _Required_ seleccionem l'opció **connect**. A la pestanya _Arcs_ indiquem sobre quina capa volem treballar (**xarxa_clean**), a la pestanya _Nodes_ activem la casella **Snap points to network** i seleccionem la capa **plantes_gestio** verificant que es connectaran al nivell 2. Finalment activem la pestanya _Optional_ i donem un nom de sortida a la capa resultant (**xarxa_pas1**), i definim un llindar de connexió de **500** metres:
+```sql
+$ v.net -s input=xarxa_clean@xarxes points=plantes_gestio@xarxes output=xarxa_pas1 operation=connect arc_type=line threshold=500
+```
+
+- dasd
