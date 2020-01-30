@@ -6,9 +6,9 @@ A continuació es mostren un seguit d'anàlisis relacionats amb xarxes, que es p
 
 Abans de començar qualsevol exercici relatiu a l'anàlisi de xarxes, per senzill que aquest sigui, és precís preparar les dades amb les quals volem treballar. Per als casos d'ús que a continuació es motraran, s'utilitzaran tres capes:
 
-Xarxa de carreteres de la comarca de l'Alt Empordà. Font: [OSM](https://www.openstreetmap.org)
-Ubicació de tres plantes de gestió de residus ramaders. Font: Elaboració pròpia
-Ubicació d'un conjunt d'explotacions. Font: Elaboració pròpia
+- Xarxa de carreteres de la comarca de l'Alt Empordà. Font: [OSM](https://www.openstreetmap.org)
+- Ubicació de tres plantes de gestió de residus ramaders. Font: Elaboració pròpia
+- Ubicació d'un conjunt d'explotacions. Font: Elaboració pròpia
 
 ### 1.1 Preparant GRASS: Creació d'un mapset de treball, i importació de dades
 
@@ -16,7 +16,7 @@ Ubicació d'un conjunt d'explotacions. Font: Elaboració pròpia
 - En acabat, procedim a importar les tres capes amb la comanda o eina **_v.import_**
 - Carreguem i simbolitzem totes les capes
 
-#### Crear la xarxa: assignació de costos
+#### 1.2 Crear la xarxa: assignació de costos
 
 - _**v.clean**_ per segmentar tots els arcs a cada intersecció:
 ```sql
@@ -41,7 +41,7 @@ UPDATE xarxa_clean SET cost =  (longitud  /  (velocitat  * 1000 / 3600))
 ```
 - Amb aquestes senzilles passes ja tenim la xarxa preparada, degudament segmentada, i amb la taula d'atributs completa en la qual hem afegit un cap de velocitat màxima de la via, longitud de cadascun dels arcs, i el cost que suposa recórrer cadascun dels arcs.
 
-#### Crear la xarxa: connectar nodes a la xarxa
+#### 1.3 Crear la xarxa: connectar nodes a la xarxa
 
 - A més de la capa de carreteres, disposem de dues capes de punts que voldrem connectar a la xarxa, i que representen les ubicacions de les plantes de gestió de les explotacions a les quals cal donar servei. El procés a seguir serà connectar les plantes de gestió a _layer 2_ de la xarxa (els arcs estan emmagatzemats al _layer 1_), i les explotacions al _layer 3_, i posteriorment vincularem les seves taules d'atributs.
 
@@ -55,6 +55,12 @@ $ v.net -s input=xarxa_clean@xarxes points=plantes_gestio@xarxes output=xarxa_pa
 $ v.net -s input=xarxa_pas1@xarxes points=explotacions@xarxes output=xarxa_completa operation=connect arc_type=line node_layer=3 threshold=500
 ```
 
-- El següent pas, consistirà en vincular les taules d'atributs de les capes **plantes_gestio** i **explotacions** a la capa **xarxa_completa** als nivells **2** i **3**, respectivament. Per a dur a terme aquesta tasca cal obrir la taula d'atributs de la capa **xarxa_completa** i activar la pestanya _Manage layers_. En l'apartat Add layer seleccionem primerament la capa **plantes_gestio** i la vinculem al nivell 2 tot fent un clic al botó **Add layer**. Seguidament fem el mateix amb la capa **explotacions** i el nivell 3. 
+- El següent pas, consistirà en vincular les taules d'atributs de les capes **plantes_gestio** i **explotacions** a la capa **xarxa_completa** als nivells **2** i **3**, respectivament. Per a dur a terme aquesta tasca cal obrir la taula d'atributs de la capa **xarxa_completa** i activar la pestanya _Manage layers_. En l'apartat Add layer seleccionem primerament la capa **plantes_gestio** i la vinculem al nivell 2 tot fent un clic al botó **Add layer**. Seguidament fem el mateix amb la capa **explotacions** i el nivell 3.
+
+## 2. Anàlisis bàsics
+
+Una vegada degudament preparada la xarxa amb la qual hem de dur a terme els diferents anàlisis de xarxes, començarem per veure els anàlisis més senzills que es poden dur a terme.
+
+### 2.1 Obtenció de la ruta més curta entre dos punts de la xarxa
 
 
