@@ -59,8 +59,11 @@ $ v.net -s input=xarxa_pas1@xarxes points=explotacions@xarxes output=xarxa_compl
 
 ## 2. Anàlisis bàsics
 
-Una vegada degudament preparada la xarxa amb la qual hem de dur a terme els diferents anàlisis de xarxes, començarem per veure els anàlisis més senzills que es poden dur a terme.
+Una vegada degudament preparada la xarxa amb la qual hem de dur a terme els diferents anàlisis de xarxes, i carregades les capes de les explotacions i de les plantes de gestió, que podem etiquetar amb el valor de la columna **[cat]**, començarem per veure els anàlisis més senzills que es poden dur a terme amb GRASS GIS.
 
 ### 2.1 Obtenció de la ruta més curta entre dos punts de la xarxa
+
+#### Via panell GRASS GIS Network Analysis Tool
+#### Via algoritme v.net.shortest
 
 
