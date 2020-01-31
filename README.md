@@ -19,14 +19,14 @@ Abans de començar qualsevol exercici relatiu a l'anàlisi de xarxes, per senzil
 #### 1.2 Crear la xarxa: assignació de costos
 
 - _**v.clean**_ per segmentar tots els arcs a cada intersecció:
-```sql
+```python
   $ v.clean input=xarxa_cost@xarxes type=line output=xarxa_clean tool=break
 ```
 - A continuació, crearem una nova columna amb nom **[velocitat]**, a la que assignarem una velocitat estàndard considerant la seva categoría. En primer lloc cal obrir la taula d'atributs de la capa **xarxa_clean**, i a l'apartat Add column, esciure el nom de la nova columna, especificant que serà de tipus enter , i fem un clic al botó **Add** per finalitzar.
 
 - El següent pas consistirà en donar valor a aquesta columna, per a cada arc de la xarxa en funció de la seva categoria. Ens posem sobre el nom de la columna, fem botó dret, y seleccionem l'opció **Field calculator**. Dins l'apartat _Query_, escribim les següents sentències SQL:  
 
-``` sql
+```python
 UPDATE xarxa_clean SET velocitat = 120 WHERE  cat_via = 1
 UPDATE xarxa_clean SET velocitat = 90 WHERE  cat_via = 2
 UPDATE xarxa_clean SET velocitat = 50 WHERE  cat_via = 3
