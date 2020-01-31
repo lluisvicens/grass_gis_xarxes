@@ -86,9 +86,17 @@ Una vegada degudament preparada la xarxa amb la qual hem de dur a terme els dife
 
 - Si finalment optem per repetir l'anàlisis anterior però, aquesta vegada incloent-hi el factor cost que hem calculat anteriorment, caldrà activar la pestanya _Cost_ i en el paràmetre _Arc forward/both direction(s) cost column_ indicar quin es el nom de la columna de cost en la taula d'atributs: **cost**.
 
-![ruta_triple_cost](/_static/ruta_triple_cost)
+![ruta_triple_cost](/_static/ruta_triple_cost.jpg)
 
 #### Via panell GRASS GIS Network Analysis Tool
 
+- Alternativament, a l'algortime _v.net.path_ GRASS GIS ofereix la possiblitat de dur a terme aquests mateixos càlculs però d'una manera una mica més dinàmica, amb l'eina Vector network analysis tool accessible des del menú Vector > Network Analysis.
 
+![tool](/_static/tool.jpg)
+
+- Per començar, a la pestanya _Parameters_ indicarem la capa sobre la qual treballarem (**xarxa_completa**) els layers que intervindran en l'anàlisi (**1** i **3**), i seleccionarem el nom de la columna que emmagatzema els valors de cost.
+
+- Seguidament activarem la pestanya _Points_ on haurem de definir les parades o punts pels quals volem passar. La limitació però d'aquesta eina més interactiva, es que només podem utilitzar un punt d'origen i un punt de destí, sense la possiblitat de definir punts intermitjos de pas, com si podem fer amb l'eina **v.net.path**.
+
+![network_tool](/_tatic/network_tool.jpg)
 
