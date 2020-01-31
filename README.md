@@ -119,3 +119,12 @@ v.net.distance input=xarxa_completa output=distancia_xarxa_cost arc_type=line fr
 - A continuació es mostren les respectives taules d'atributs:
 
 ![taules_distancia](/_static/taules_distancia.jpg)
+
+
+### 2.3 Obtenció de les distancies i les rutes, entre tots els elements d'una mostra
+
+```sql
+v.net.allpairs input=xarxa_completa out=distancia_tots node_layer=3 cats=65,43,40,18 arc_column=cost
+```
+
+
