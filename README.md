@@ -70,6 +70,6 @@ Una vegada degudament preparada la xarxa amb la qual hem de dur a terme els dife
    :align: center
    **Figura 1:** Configuración del SRS del proyecto de QGIS.
    
-![GitHub Logo](/_static/test.jpg)
-Format: ![Alt Text](url)
+![isonetwork](/_static/test.jpg)
+
 
