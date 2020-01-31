@@ -121,10 +121,14 @@ v.net.distance input=xarxa_completa output=distancia_xarxa_cost arc_type=line fr
 ![taules_distancia](/_static/taules_distancia.jpg)
 
 
-### 2.3 Obtenció de les distancies i les rutes, entre tots els elements d'una mostra
+### 2.3 Obtenció de les distancies i les rutes, entre tots els elements d'una mostra.
+
+- El següent exercici que podem dur a terme amb les eïnes d'anàlisis de xarxes de GRASS GIS, és l'obtenció de les rutes i les distàncies existents entre tots els punts d'una mostra (n-m), a través de la xarxa i considerant o no, el cost que prèviament li haurem assignat (temps). En cas contrari, les distàncies que s'obtindran seran en les unitats del projecte/capa (per defecte, metres en sistemes UTM). L'eina que ens permet dur a terme aquest càlcul es **v.net.allpairs** que es troba al menú Vecor > Network Analysis.
+
+- A la finestra emergent, caldrà indicar sobre quina capa de xarxa treballarem, quin layer conté la informació sobre els nodes, la categoria o l'id d'aquests nodes i, finalment, la columna que emmagatzem els costos associats al desplaçament:
 
 ```sql
 v.net.allpairs input=xarxa_completa out=distancia_tots node_layer=3 cats=65,43,40,18 arc_column=cost
 ```
-
+![allpairs](/_static/allpairs.jpg)
 
