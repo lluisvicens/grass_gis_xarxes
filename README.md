@@ -69,13 +69,13 @@ Una vegada degudament preparada la xarxa amb la qual hem de dur a terme els dife
 
 #### Via algoritme v.net.shortest
 
-Accedirem al menú Vector > Network Analysis > Shortest path (_v.net.path_). En el quadre de diàleg de l'eina, a la pestanya _Required_ definirem en primer lloc el nom de la capa que conté la xarxa viària amb la qual treballem (**xarxa_completa**), donarem un nom de sortida a la capa resultant (**ruta_sense_cost**). Finalment, donat que les explotacions estan conectades a la xarxa en el layer 3, en l'apartat _Node layer_ seleccionarem el valor **3**. Activarem la pestanya _Optional_, i en l'apartat _or enter values directly:_ indicarem quines explotacions volem connectar mitjançant la ruta més curta. Per exemple, en el cas de voler connectar les explotacions amb el valor **41** i **37** presents en la columna **[cat]** de la seva taula d'atributs, escriurem la següent línia:
+- Accedirem al menú Vector > Network Analysis > Shortest path (_v.net.path_). En el quadre de diàleg de l'eina, a la pestanya _Required_ definirem en primer lloc el nom de la capa que conté la xarxa viària amb la qual treballem (**xarxa_completa**), donarem un nom de sortida a la capa resultant (**ruta_sense_cost**). Finalment, donat que les explotacions estan conectades a la xarxa en el layer 3, en l'apartat _Node layer_ seleccionarem el valor **3**. Activarem la pestanya _Optional_, i en l'apartat _or enter values directly:_ indicarem quines explotacions volem connectar mitjançant la ruta més curta. Per exemple, en el cas de voler connectar les explotacions amb el valor **41** i **37** presents en la columna **[cat]** de la seva taula d'atributs, escriurem la següent línia:
 ```sql
 1 41 37
 ```
 ![ruta_no_cost](/_static/ruta_no_cost.jpg)
 
-Si la nostra ruta a ha de passar per dos o més punts, cal afegir noves línies en l'apartat de parades on el destí de la primera línia, ha de ser l'origen de la segona, i axí successivament:
+- Si la nostra ruta a ha de passar per dos o més punts, cal afegir noves línies en l'apartat de parades on el destí de la primera línia, ha de ser l'origen de la segona, i axí successivament:
 
 ```sql
 1 41 37
@@ -84,6 +84,9 @@ Si la nostra ruta a ha de passar per dos o més punts, cal afegir noves línies 
 ```
 ![ruta_triple_parada](/_static/ruta_triple_parada.jpg)
 
+- Si finalment optem per repetir l'anàlisis anterior però, aquesta vegada incloent-hi el factor cost que hem calculat anteriorment, caldrà activar la pestanya _Cost_ i en el paràmetre _Arc forward/both direction(s) cost column_ indicar quin es el nom de la columna de cost en la taula d'atributs: **cost**.
+
+![ruta_triple_cost](/_static/ruta_triple_cost)
 
 #### Via panell GRASS GIS Network Analysis Tool
 
