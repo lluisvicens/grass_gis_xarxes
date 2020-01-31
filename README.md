@@ -135,3 +135,13 @@ v.net.allpairs input=xarxa_completa out=distancia_tots node_layer=3 cats=65,43,4
 ```
 ![allpairs](/_static/allpairs.jpg)
 
+### 2.4 Obtenció de mesures de centralitat, proximitat, intermediació
+
+- L'anàlisis de xarxes amb GRASS GIS també ofereix la posibilitat d'analitzar numèricament la localització d'un conjunt de nodes distribuits per la xarxa. Aquestes mesures de centralitat ens l'ofereix l'eina **v.net.centrality**.
+
+```python
+v.net.centrality input=xarxa_completa out=mesures_centralitat cats=1-3 arc_column=cost degree=grau_centralitat closeness=proximitat betweenness=intermediacio eigenvector=centralitat_vector
+```
+El valor de _**Closeness centrality**_ mesura quin és el node que és més proper a la resta de nodes que conformen la xarxa. Aquest valor, és la mitja de la distancia més propera entre un node amb la resta de nodes de la xarxa. Quant més baix és el valor, més elevada és la seva centralitat.
+
+El valor de intermediació _**Betweenness centrality**_ mesura com d'important és un node en relació a la resta de nodes de la xarxa. En altres paraules, mesura com d'entremig està un node entre la resta, o quantes vegades es fa servir un node per moure's d'un node a un altre de la xarxa. 
