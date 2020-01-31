@@ -63,10 +63,29 @@ $ v.net -s input=xarxa_pas1@xarxes points=explotacions@xarxes output=xarxa_compl
 
 Una vegada degudament preparada la xarxa amb la qual hem de dur a terme els diferents anàlisis de xarxes, i carregades les capes de les explotacions i de les plantes de gestió, que podem etiquetar amb el valor de la columna **[cat]**, començarem per veure els anàlisis més senzills que es poden dur a terme amb GRASS GIS.
 
-### 2.1 Obtenció de la ruta més curta entre dos punts de la xarxa
+![inici](/_static/inici.jpg)
+
+### 2.1 Obtenció de la ruta més curta entre dos punts de la xarxa (explotacions)
+
+#### Via algoritme v.net.shortest
+
+Accedirem al menú Vector > Network Analysis > Shortest path (_v.net.path_). En el quadre de diàleg de l'eina, a la pestanya _Required_ definirem en primer lloc el nom de la capa que conté la xarxa viària amb la qual treballem (**xarxa_completa**), donarem un nom de sortida a la capa resultant (**ruta_sense_cost**). Finalment, donat que les explotacions estan conectades a la xarxa en el layer 3, en l'apartat _Node layer_ seleccionarem el valor **3**. Activarem la pestanya _Optional_, i en l'apartat _or enter values directly:_ indicarem quines explotacions volem connectar mitjançant la ruta més curta. Per exemple, en el cas de voler connectar les explotacions amb el valor **41** i **37** presents en la columna **[cat]** de la seva taula d'atributs, escriurem la següent línia:
+```sql
+1 41 37
+```
+![ruta_no_cost](_/static/ruta_no_cost.jpg)
+
+Si la nostra ruta a ha de passar per dos o més punts, cal afegir noves línies en l'apartat de parades on el destí de la primera línia, ha de ser l'origen de la segona, i axí successivament:
+
+```sql
+1 41 37
+2 37 65
+3 65 14
+```
+![ruta_triple_parada](/_static/ruta_triple_parada.jpg)
+
 
 #### Via panell GRASS GIS Network Analysis Tool
-#### Via algoritme v.net.shortest
 
 
 
