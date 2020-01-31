@@ -98,5 +98,24 @@ Una vegada degudament preparada la xarxa amb la qual hem de dur a terme els dife
 
 - Seguidament activarem la pestanya _Points_ on haurem de definir les parades o punts pels quals volem passar. La limitació però d'aquesta eina més interactiva, es que només podem utilitzar un punt d'origen i un punt de destí, sense la possiblitat de definir punts intermitjos de pas, com si podem fer amb l'eina **v.net.path**.
 
-![network_tool](/_tatic/network_tool.jpg)
+![network_tool](/_static/network_tool.jpg)
 
+El resultat, si es considera satisfactori es pot desar com una nova capa temporal en el mapset de treball.
+
+### 2.2 Obtenció de la ruta més curta, i distancia, entre núvol de punts i una destinació
+
+- L'eina **v.net.distance** ens permet obtenir la ruta més curta entre un conjunt de punts, i un punt de destí, a través de la xarxa, amb la possiblitat de considerar el cost de desplaçament per la xarxa. En l'exemple següent, es calcula la distancia existent entre un conjunt d'explotacions (_node layer 3_) i una de les plantes de gestió (_node layer 2_). En el primer cas, no es considera el cost de desplaçament associat a cada arc i per tant la distancia més curta s'avalua en metres mentre que, en el segon cas, si es té en compte la columna que emmagatzema el valor de costa i per tant, la ruta més curta s'avalua en temps de desplaçament.
+
+```sql
+v.net.distance input=xarxa_completa out=distancia_xarxa arc_type=line from_layer=3 from_cats=42,41,65,33,28,19 to_layer=2 to_cats=2
+```
+![distancia](/_static/distancia.jpg)
+
+```sql
+v.net.distance input=xarxa_completa output=distancia_xarxa_cost arc_type=line from_layer=3 from_cats=42,41,65,33,28,19 to_layer=2 to_cats=2 arc_column=cost
+```
+![distancia2](/_static/distancia2.jpg)
+
+- A continuació es mostren les respectives taules d'atributs:
+
+![taules_distancia](/_static/taules_distancia.jpg)
