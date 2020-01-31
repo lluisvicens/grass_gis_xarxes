@@ -66,4 +66,8 @@ Una vegada degudament preparada la xarxa amb la qual hem de dur a terme els dife
 #### Via panell GRASS GIS Network Analysis Tool
 #### Via algoritme v.net.shortest
 
+	.. figure:: _static/test.jpg
+	   :align: center
+
+	   **Figura 1:** Configuración del SRS del proyecto de QGIS.
 
