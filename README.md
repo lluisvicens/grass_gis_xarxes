@@ -57,6 +57,8 @@ $ v.net -s input=xarxa_pas1@xarxes points=explotacions@xarxes output=xarxa_compl
 
 - El següent pas, consistirà en vincular les taules d'atributs de les capes **plantes_gestio** i **explotacions** a la capa **xarxa_completa** als nivells **2** i **3**, respectivament. Per a dur a terme aquesta tasca cal obrir la taula d'atributs de la capa **xarxa_completa** i activar la pestanya _Manage layers_. En l'apartat Add layer seleccionem primerament la capa **plantes_gestio** i la vinculem al nivell 2 tot fent un clic al botó **Add layer**. Seguidament fem el mateix amb la capa **explotacions** i el nivell 3.
 
+![atributs](/_static/atributs.jpg)
+
 ## 2. Anàlisis bàsics
 
 Una vegada degudament preparada la xarxa amb la qual hem de dur a terme els diferents anàlisis de xarxes, i carregades les capes de les explotacions i de les plantes de gestió, que podem etiquetar amb el valor de la columna **[cat]**, començarem per veure els anàlisis més senzills que es poden dur a terme amb GRASS GIS.
@@ -66,10 +68,5 @@ Una vegada degudament preparada la xarxa amb la qual hem de dur a terme els dife
 #### Via panell GRASS GIS Network Analysis Tool
 #### Via algoritme v.net.shortest
 
-.. figure:: _static/test.jpg
-   :align: center
-   **Figura 1:** Configuración del SRS del proyecto de QGIS.
-   
-![isonetwork](/_static/test.jpg)
 
 
