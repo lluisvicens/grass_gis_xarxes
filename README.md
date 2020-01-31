@@ -73,7 +73,7 @@ Accedirem al menú Vector > Network Analysis > Shortest path (_v.net.path_). En 
 ```sql
 1 41 37
 ```
-![ruta_no_cost](_/static/ruta_no_cost.jpg)
+![ruta_no_cost](/_static/ruta_no_cost.jpg)
 
 Si la nostra ruta a ha de passar per dos o més punts, cal afegir noves línies en l'apartat de parades on el destí de la primera línia, ha de ser l'origen de la segona, i axí successivament:
 
