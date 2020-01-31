@@ -20,7 +20,7 @@ Abans de començar qualsevol exercici relatiu a l'anàlisi de xarxes, per senzil
 
 - _**v.clean**_ per segmentar tots els arcs a cada intersecció:
 ```python
-  $ v.clean input=xarxa_cost@xarxes type=line output=xarxa_clean tool=break
+v.clean input=xarxa_cost@xarxes type=line output=xarxa_clean tool=break
 ```
 - A continuació, crearem una nova columna amb nom **[velocitat]**, a la que assignarem una velocitat estàndard considerant la seva categoría. En primer lloc cal obrir la taula d'atributs de la capa **xarxa_clean**, i a l'apartat Add column, esciure el nom de la nova columna, especificant que serà de tipus enter , i fem un clic al botó **Add** per finalitzar.
 
@@ -36,7 +36,7 @@ UPDATE xarxa_clean SET velocitat = 30 WHERE  cat_via = 4
 
 - Finalment, crearem una nova columna anomenada **[cost]**, de tipus decimal, que actualitzarem amb el següent valor de cost: el temps necessari per a recórrer un arc, en segons, donada la seva longitud i la velocitat màxima de la via. Així, una vegada creada la nova columna fem un clic sobre la capçalera per acabar seleccionant novament l'opció **Field calculator**.
 
-```sql
+```python
 UPDATE xarxa_clean SET cost =  (longitud  /  (velocitat  * 1000 / 3600))
 ```
 - Amb aquestes senzilles passes ja tenim la xarxa preparada, degudament segmentada, i amb la taula d'atributs completa en la qual hem afegit un cap de velocitat màxima de la via, longitud de cadascun dels arcs, i el cost que suposa recórrer cadascun dels arcs.
@@ -46,13 +46,15 @@ UPDATE xarxa_clean SET cost =  (longitud  /  (velocitat  * 1000 / 3600))
 - A més de la capa de carreteres, disposem de dues capes de punts que voldrem connectar a la xarxa, i que representen les ubicacions de les plantes de gestió de les explotacions a les quals cal donar servei. El procés a seguir serà connectar les plantes de gestió a _layer 2_ de la xarxa (els arcs estan emmagatzemats al _layer 1_), i les explotacions al _layer 3_, i posteriorment vincularem les seves taules d'atributs.
 
 - Accedim al menú Vector > Network Analysis > Network preparation. A la finestra emergent, dins la pestanya _Required_ seleccionem l'opció **connect**. A la pestanya _Arcs_ indiquem sobre quina capa volem treballar (**xarxa_clean**), a la pestanya _Nodes_ activem la casella **Snap points to network** i seleccionem la capa **plantes_gestio** verificant que es connectaran al nivell 2. Finalment activem la pestanya _Optional_ i donem un nom de sortida a la capa resultant (**xarxa_pas1**), i definim un llindar de connexió de **500** metres:
-```sql
-$ v.net -s input=xarxa_clean@xarxes points=plantes_gestio@xarxes output=xarxa_pas1 operation=connect arc_type=line threshold=500
+
+```python
+v.net -s input=xarxa_clean@xarxes points=plantes_gestio@xarxes output=xarxa_pas1 operation=connect arc_type=line threshold=500
 ```
 
 - Repetim novament el pas anterior, però aquesta vegada seleccionant la capa **xarxa_pas1** com a capa d'entrada, la capa **explotacions** com a capa de nodes, connectant-la al nivell o _layer_ **3**, i amb el nom de sortida **xarxa_completa**:
-```sql
-$ v.net -s input=xarxa_pas1@xarxes points=explotacions@xarxes output=xarxa_completa operation=connect arc_type=line node_layer=3 threshold=500
+
+```python
+v.net -s input=xarxa_pas1@xarxes points=explotacions@xarxes output=xarxa_completa operation=connect arc_type=line node_layer=3 threshold=500
 ```
 
 - El següent pas, consistirà en vincular les taules d'atributs de les capes **plantes_gestio** i **explotacions** a la capa **xarxa_completa** als nivells **2** i **3**, respectivament. Per a dur a terme aquesta tasca cal obrir la taula d'atributs de la capa **xarxa_completa** i activar la pestanya _Manage layers_. En l'apartat Add layer seleccionem primerament la capa **plantes_gestio** i la vinculem al nivell 2 tot fent un clic al botó **Add layer**. Seguidament fem el mateix amb la capa **explotacions** i el nivell 3.
@@ -70,14 +72,15 @@ Una vegada degudament preparada la xarxa amb la qual hem de dur a terme els dife
 #### Via algoritme v.net.shortest
 
 - Accedirem al menú Vector > Network Analysis > Shortest path (_v.net.path_). En el quadre de diàleg de l'eina, a la pestanya _Required_ definirem en primer lloc el nom de la capa que conté la xarxa viària amb la qual treballem (**xarxa_completa**), donarem un nom de sortida a la capa resultant (**ruta_sense_cost**). Finalment, donat que les explotacions estan conectades a la xarxa en el layer 3, en l'apartat _Node layer_ seleccionarem el valor **3**. Activarem la pestanya _Optional_, i en l'apartat _or enter values directly:_ indicarem quines explotacions volem connectar mitjançant la ruta més curta. Per exemple, en el cas de voler connectar les explotacions amb el valor **41** i **37** presents en la columna **[cat]** de la seva taula d'atributs, escriurem la següent línia:
-```sql
+
+```python
 1 41 37
 ```
 ![ruta_no_cost](/_static/ruta_no_cost.jpg)
 
 - Si la nostra ruta a ha de passar per dos o més punts, cal afegir noves línies en l'apartat de parades on el destí de la primera línia, ha de ser l'origen de la segona, i axí successivament:
 
-```sql
+```python
 1 41 37
 2 37 65
 3 65 14
@@ -106,12 +109,12 @@ El resultat, si es considera satisfactori es pot desar com una nova capa tempora
 
 - L'eina **v.net.distance** ens permet obtenir la ruta més curta entre un conjunt de punts, i un punt de destí, a través de la xarxa, amb la possiblitat de considerar el cost de desplaçament per la xarxa. En l'exemple següent, es calcula la distancia existent entre un conjunt d'explotacions (_node layer 3_) i una de les plantes de gestió (_node layer 2_). En el primer cas, no es considera el cost de desplaçament associat a cada arc i per tant la distancia més curta s'avalua en metres mentre que, en el segon cas, si es té en compte la columna que emmagatzema el valor de costa i per tant, la ruta més curta s'avalua en temps de desplaçament.
 
-```sql
+```python
 v.net.distance input=xarxa_completa out=distancia_xarxa arc_type=line from_layer=3 from_cats=42,41,65,33,28,19 to_layer=2 to_cats=2
 ```
 ![distancia](/_static/distancia.jpg)
 
-```sql
+```python
 v.net.distance input=xarxa_completa output=distancia_xarxa_cost arc_type=line from_layer=3 from_cats=42,41,65,33,28,19 to_layer=2 to_cats=2 arc_column=cost
 ```
 ![distancia2](/_static/distancia2.jpg)
@@ -127,7 +130,7 @@ v.net.distance input=xarxa_completa output=distancia_xarxa_cost arc_type=line fr
 
 - A la finestra emergent, caldrà indicar sobre quina capa de xarxa treballarem, quin layer conté la informació sobre els nodes, la categoria o l'id d'aquests nodes i, finalment, la columna que emmagatzem els costos associats al desplaçament:
 
-```sql
+```python
 v.net.allpairs input=xarxa_completa out=distancia_tots node_layer=3 cats=65,43,40,18 arc_column=cost
 ```
 ![allpairs](/_static/allpairs.jpg)
