@@ -149,7 +149,12 @@ v.net.allpairs input=xarxa_completa out=distancia_tots node_layer=3 cats=65,43,4
 ```python
 v.net.centrality input=xarxa_completa out=mesures_centralitat cats=1-3 arc_column=cost degree=grau_centralitat closeness=proximitat betweenness=intermediacio eigenvector=centralitat_vector
 ```
-El valor de _**Closeness centrality**_ mesura quin és el node que és més proper a la resta de nodes que conformen la xarxa. Aquest valor, és la mitja de la distancia més propera entre un node amb la resta de nodes de la xarxa. Quant més baix és el valor, més elevada és la seva centralitat.
+El valor de _Closeness centrality_ o **Centralitat de proximitat** mesura quin és el node que és més proper a la resta de nodes que conformen la xarxa. Aquest valor, és la mitja de la distancia més propera entre un node amb la resta de nodes de la xarxa. Quant més baix és el valor, més elevada és la seva centralitat.
 
-El valor de intermediació _**Betweenness centrality**_ mesura com d'important és un node en relació a la resta de nodes de la xarxa. En altres paraules, mesura com d'entremig està un node entre la resta, o quantes vegades es fa servir un node per moure's d'un node a un altre de la xarxa. 
-,
+És la distància promig d’un node respecte dels altres nodes de la xarxa. En termes matemàtics és l’invers de la suma de distàncies mínimes als altres nodes o diàmetre. Aquest paràmetre ens pot aportar una idea del que costaria difondre una informació des d’un node a qualsevol altre.
+
+El valor de intermediació _Betweenness centrality_ o **Centralitat d'intermediació** mesura com d'important és un node en relació a la resta de nodes de la xarxa. En altres paraules, mesura com d'entremig està un node entre la resta, o quantes vegades es fa servir un node per moure's d'un node a un altre de la xarxa.
+
+És una mesura que ens indica la freqüència amb la que un node apareix en el camí més curt que connecta altres dos nodes. Aquest paràmetre és important perquè un node amb elevada centralitat d’intermediació pot controlar el flux de la informació que es difon a través d’una xarxa.
+
+En termes matemàtics, el valor de la centralitat d’intermediació d’un node n és el nombre de distàncies mínimes que uneixen dos nodes passant pel nodes n entre el nombre de distàncies mínimes que uneixen dos nodes.
