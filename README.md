@@ -105,9 +105,9 @@ Una vegada degudament preparada la xarxa amb la qual hem de dur a terme els dife
 
 El resultat, si es considera satisfactori es pot desar com una nova capa temporal en el mapset de treball.
 
-### 2.2 Obtenció de la ruta més curta, i distancia, entre núvol de punts i una destinació
+### 2.2 Obtenció de la ruta més curta, i distancia, entre núvol de punts i una destinació.
 
-- L'eina **v.net.distance** ens permet obtenir la ruta més curta entre un conjunt de punts, i un punt de destí, a través de la xarxa, amb la possiblitat de considerar el cost de desplaçament per la xarxa. En l'exemple següent, es calcula la distancia existent entre un conjunt d'explotacions (_node layer 3_) i una de les plantes de gestió (_node layer 2_). En el primer cas, no es considera el cost de desplaçament associat a cada arc i per tant la distancia més curta s'avalua en metres mentre que, en el segon cas, si es té en compte la columna que emmagatzema el valor de costa i per tant, la ruta més curta s'avalua en temps de desplaçament.
+- L'eina **v.net.distance** ens permet obtenir la ruta més curta entre un conjunt de punts, i un o més punts de destí, a través de la xarxa, amb la possiblitat de considerar el cost de desplaçament per la xarxa. En l'exemple següent, es calcula la distancia existent entre un conjunt d'explotacions (_node layer 3_) i una de les plantes de gestió (_node layer 2_). En el primer cas, no es considera el cost de desplaçament associat a cada arc i per tant la distancia més curta s'avalua en metres mentre que, en el segon cas, si es té en compte la columna que emmagatzema el valor de costa i per tant, la ruta més curta s'avalua en temps de desplaçament.
 
 ```python
 v.net.distance input=xarxa_completa out=distancia_xarxa arc_type=line from_layer=3 from_cats=42,41,65,33,28,19 to_layer=2 to_cats=2
@@ -123,6 +123,13 @@ v.net.distance input=xarxa_completa output=distancia_xarxa_cost arc_type=line fr
 
 ![taules_distancia](/_static/taules_distancia.jpg)
 
+- Per altra banda, a partir d'un núvol de punts (actuant com a origen) i dos o més punts de destí, l'algoritme calcula la ruta més curta des de cada punt **origen** al punt de **destí** que li resulta més proper en termes de cost de desplaçament per la xarxa.
+
+```python
+v.net.distance input=xarxa_completa output=distancia_xarxa_expl arc_type=line from_layer=3 to_layer=2 to_cats=1,2,3 arc_column=cost
+```
+
+![distancia3](/_static/distancia3.jpg)
 
 ### 2.3 Obtenció de les distancies i les rutes, entre tots els elements d'una mostra.
 
@@ -145,3 +152,4 @@ v.net.centrality input=xarxa_completa out=mesures_centralitat cats=1-3 arc_colum
 El valor de _**Closeness centrality**_ mesura quin és el node que és més proper a la resta de nodes que conformen la xarxa. Aquest valor, és la mitja de la distancia més propera entre un node amb la resta de nodes de la xarxa. Quant més baix és el valor, més elevada és la seva centralitat.
 
 El valor de intermediació _**Betweenness centrality**_ mesura com d'important és un node en relació a la resta de nodes de la xarxa. En altres paraules, mesura com d'entremig està un node entre la resta, o quantes vegades es fa servir un node per moure's d'un node a un altre de la xarxa. 
+,
