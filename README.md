@@ -159,5 +159,6 @@ v.net.centrality input=xarxa_completa out=mesures_centralitat cats=1-3 arc_colum
 
 - Aquesta mesura ens indica la freqüència amb la que un node apareix en el camí més curt que connecta altres dos nodes. Aquest paràmetre és important perquè un node amb elevada centralitat d’intermediació pot controlar el flux de la informació, mercaderies, etc., que es difon a través d’una xarxa.
 
-
 ![betweenness](/_static/betweenness.jpg)
+
+- Els nodes amb un valor més elevat d'intermediació són també aquells que, en cas d'eliminar-los de la xarxa, afectaran més a la comunicació entre nodes doncs es troben en el major nombre de rutes entre nodes.
