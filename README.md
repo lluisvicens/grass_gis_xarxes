@@ -200,3 +200,13 @@ v.net.salesman input=xarxa_completa out=comercial_plantes_cost center_cats=1-3 a
 ```
 
 ![salesman_plantes](/_static/salesman_plantes.jpg)
+
+- El mateix tipus d'anàlisis es pot dur a terme amb les explotacions, o una mostra de la mateixa:
+
+```python
+v.net.salesman input=xarxa_completa out=salesman_explotacions center_cats=17,1,5,56,41,38,23,32,30 node_layer=3 arc_column=cost
+```
+
+![salesman_explotacions](/_static/salesman_explotacions.jpg)
+
+
