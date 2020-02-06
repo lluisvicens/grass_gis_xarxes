@@ -1,10 +1,10 @@
-# Exercicis d'anàlisis de xarxes amb GRASS GIS
+# Exercicis d'anàlisi de xarxes amb GRASS GIS
 
 A continuació es mostren un seguit d'anàlisis relacionats amb xarxes, que es poden dur a terme amb GRASS GIS i amb el conjunt d'eines que es troben al paquet _**v.net**_.
 
 ## 1. La preparació de la xarxa
 
-Abans de començar qualsevol exercici relatiu a l'anàlisi de xarxes, per senzill que aquest sigui, és precís preparar les dades amb les quals volem treballar. Per als casos d'ús que a continuació es motraran, s'utilitzaran tres capes:
+Abans de començar qualsevol exercici relatiu a l'anàlisi de xarxes, per senzill que aquest sigui, és precís preparar les dades amb les quals volem treballar. Per als casos d'ús que a continuació es mostraran, s'utilitzaran tres capes:
 
 - Xarxa de carreteres de la comarca de l'Alt Empordà. Font: [OSM](https://www.openstreetmap.org)
 - Ubicació de tres plantes de gestió de residus ramaders. Font: Elaboració pròpia
@@ -12,7 +12,7 @@ Abans de començar qualsevol exercici relatiu a l'anàlisi de xarxes, per senzil
 
 ### 1.1 Preparant GRASS: Creació d'un mapset de treball, i importació de dades
 
-- El primer pas, consisteix en crear un _location_ y un _mapset_ de GRASS GIS amb un sistema de referència **EPSG:25831**
+- El primer pas, consisteix en crear un _location_ i un _mapset_ de GRASS GIS amb un sistema de referència **EPSG:25831**
 - En acabat, procedim a importar les tres capes amb la comanda o eina **_v.import_**
 - Carreguem i simbolitzem totes les capes
 
@@ -22,7 +22,7 @@ Abans de començar qualsevol exercici relatiu a l'anàlisi de xarxes, per senzil
 ```python
 v.clean input=xarxa_cost@xarxes type=line output=xarxa_clean tool=break
 ```
-- A continuació, crearem una nova columna amb nom **[velocitat]**, a la que assignarem una velocitat estàndard considerant la seva categoría. En primer lloc cal obrir la taula d'atributs de la capa **xarxa_clean**, i a l'apartat Add column, esciure el nom de la nova columna, especificant que serà de tipus enter , i fem un clic al botó **Add** per finalitzar.
+- A continuació, crearem una nova columna amb nom **[velocitat]**, a la que assignarem una velocitat estàndard considerant la seva categoria. En primer lloc cal obrir la taula d'atributs de la capa **xarxa_clean**, i a l'apartat Add column, escriure el nom de la nova columna, especificant que serà de tipus enter , i fem un clic al botó **Add** per finalitzar.
 
 - El següent pas consistirà en donar valor a aquesta columna, per a cada arc de la xarxa en funció de la seva categoria. Ens posem sobre el nom de la columna, fem botó dret, y seleccionem l'opció **Field calculator**. Dins l'apartat _Query_, escribim les següents sentències SQL:  
 
@@ -32,7 +32,7 @@ UPDATE xarxa_clean SET velocitat = 90 WHERE  cat_via = 2
 UPDATE xarxa_clean SET velocitat = 50 WHERE  cat_via = 3
 UPDATE xarxa_clean SET velocitat = 30 WHERE  cat_via = 4
 ```
-- A continuació, cal crear una nova columna que durà per nom **[longitud]**, de tipus decimal (3), seguint el mateix procés anteriorment mostrat i, una vegada creada, fem un clic amb el botó dret del mouse sobre la capçalera i activem l'opció Calculate > Line length.
+- A continuació, cal crear una nova columna que durà per nom **[longitud]**, de tipus decimal (3), seguint el mateix procés anteriorment mostrat i, una vegada creada, fem un clic amb el botó dret del _mouse_ sobre la capçalera i activem l'opció Calculate > Line length.
 
 - Finalment, crearem una nova columna anomenada **[cost]**, de tipus decimal, que actualitzarem amb el següent valor de cost: el temps necessari per a recórrer un arc, en segons, donada la seva longitud i la velocitat màxima de la via. Així, una vegada creada la nova columna fem un clic sobre la capçalera per acabar seleccionant novament l'opció **Field calculator**.
 
@@ -71,14 +71,14 @@ Una vegada degudament preparada la xarxa amb la qual hem de dur a terme els dife
 
 #### Via algoritme v.net.shortest
 
-- Accedirem al menú Vector > Network Analysis > Shortest path (_v.net.path_). En el quadre de diàleg de l'eina, a la pestanya _Required_ definirem en primer lloc el nom de la capa que conté la xarxa viària amb la qual treballem (**xarxa_completa**), donarem un nom de sortida a la capa resultant (**ruta_sense_cost**). Finalment, donat que les explotacions estan conectades a la xarxa en el layer 3, en l'apartat _Node layer_ seleccionarem el valor **3**. Activarem la pestanya _Optional_, i en l'apartat _or enter values directly:_ indicarem quines explotacions volem connectar mitjançant la ruta més curta. Per exemple, en el cas de voler connectar les explotacions amb el valor **41** i **37** presents en la columna **[cat]** de la seva taula d'atributs, escriurem la següent línia:
+- Accedirem al menú Vector > Network Analysis > Shortest path (_v.net.path_). En el quadre de diàleg de l'eina, a la pestanya _Required_ definirem en primer lloc el nom de la capa que conté la xarxa viària amb la qual treballem (**xarxa_completa**), donarem un nom de sortida a la capa resultant (**ruta_sense_cost**). Finalment, donat que les explotacions estan connectades a la xarxa en el layer 3, en l'apartat _Node layer_ seleccionarem el valor **3**. Activarem la pestanya _Optional_, i en l'apartat _or enter values directly:_ indicarem quines explotacions volem connectar mitjançant la ruta més curta. Per exemple, en el cas de voler connectar les explotacions amb el valor **41** i **37** presents en la columna **[cat]** de la seva taula d'atributs, escriurem la següent línia:
 
 ```python
 1 41 37
 ```
 ![ruta_no_cost](/_static/ruta_no_cost.jpg)
 
-- Si la nostra ruta a ha de passar per dos o més punts, cal afegir noves línies en l'apartat de parades on el destí de la primera línia, ha de ser l'origen de la segona, i axí successivament:
+- Si la nostra ruta a ha de passar per dos o més punts, cal afegir noves línies en l'apartat de parades on el destí de la primera línia, ha de ser l'origen de la segona, i així successivament:
 
 ```python
 1 41 37
@@ -87,19 +87,19 @@ Una vegada degudament preparada la xarxa amb la qual hem de dur a terme els dife
 ```
 ![ruta_triple_parada](/_static/ruta_triple_parada.jpg)
 
-- Si finalment optem per repetir l'anàlisis anterior però, aquesta vegada incloent-hi el factor cost que hem calculat anteriorment, caldrà activar la pestanya _Cost_ i en el paràmetre _Arc forward/both direction(s) cost column_ indicar quin es el nom de la columna de cost en la taula d'atributs: **cost**.
+- Si finalment optem per repetir l'anàlisi anterior però, aquesta vegada incloent-hi el factor cost que hem calculat anteriorment, caldrà activar la pestanya _Cost_ i en el paràmetre _Arc forward/both direction(s) cost column_ indicar quin es el nom de la columna de cost en la taula d'atributs: **cost**.
 
 ![ruta_triple_cost](/_static/ruta_triple_cost.jpg)
 
 #### Via panell GRASS GIS Network Analysis Tool
 
-- Alternativament, a l'algortime _v.net.path_ GRASS GIS ofereix la possiblitat de dur a terme aquests mateixos càlculs però d'una manera una mica més dinàmica, amb l'eina Vector network analysis tool accessible des del menú Vector > Network Analysis.
+- Alternativament, a l'algoritme _v.net.path_ GRASS GIS ofereix la possibilitat de dur a terme aquests mateixos càlculs però d'una manera una mica més dinàmica, amb l'eina Vector network analysis tool accessible des del menú Vector > Network Analysis.
 
 ![tool](/_static/tool.jpg)
 
-- Per començar, a la pestanya _Parameters_ indicarem la capa sobre la qual treballarem (**xarxa_completa**) els layers que intervindran en l'anàlisi (**1** i **3**), i seleccionarem el nom de la columna que emmagatzema els valors de cost.
+- Per començar, a la pestanya _Parameters_ indicarem la capa sobre la qual treballarem (**xarxa_completa**) els _layers_ que intervindran en l'anàlisi (**1** i **3**), i seleccionarem el nom de la columna que emmagatzema els valors de cost.
 
-- Seguidament activarem la pestanya _Points_ on haurem de definir les parades o punts pels quals volem passar. La limitació però d'aquesta eina més interactiva, es que només podem utilitzar un punt d'origen i un punt de destí, sense la possiblitat de definir punts intermitjos de pas, com si podem fer amb l'eina **v.net.path**.
+- Seguidament activarem la pestanya _Points_ on haurem de definir les parades o punts pels quals volem passar. La limitació però d'aquesta eina més interactiva, es que només podem utilitzar un punt d'origen i un punt de destí, sense la possibilitat de definir punts intermitjos de pas, com si podem fer amb l'eina **v.net.path**.
 
 ![network_tool](/_static/network_tool.jpg)
 
@@ -107,7 +107,7 @@ El resultat, si es considera satisfactori es pot desar com una nova capa tempora
 
 ### 2.2 Obtenció de la ruta més curta, i distancia, entre núvol de punts i una destinació.
 
-- L'eina **v.net.distance** ens permet obtenir la ruta més curta entre un conjunt de punts, i un o més punts de destí, a través de la xarxa, amb la possiblitat de considerar el cost de desplaçament per la xarxa. En l'exemple següent, es calcula la distancia existent entre un conjunt d'explotacions (_node layer 3_) i una de les plantes de gestió (_node layer 2_). En el primer cas, no es considera el cost de desplaçament associat a cada arc i per tant la distancia més curta s'avalua en metres mentre que, en el segon cas, si es té en compte la columna que emmagatzema el valor de costa i per tant, la ruta més curta s'avalua en temps de desplaçament.
+- L'eina **v.net.distance** ens permet obtenir la ruta més curta entre un conjunt de punts, i un o més punts de destí, a través de la xarxa, amb la possibilitat de considerar el cost de desplaçament per la xarxa. En l'exemple següent, es calcula la distancia existent entre un conjunt d'explotacions (_node layer 3_) i una de les plantes de gestió (_node layer 2_). En el primer cas, no es considera el cost de desplaçament associat a cada arc i per tant la distancia més curta s'avalua en metres mentre que, en el segon cas, si es té en compte la columna que emmagatzema el valor de costa i per tant, la ruta més curta s'avalua en temps de desplaçament.
 
 ```python
 v.net.distance input=xarxa_completa out=distancia_xarxa arc_type=line from_layer=3 from_cats=42,41,65,33,28,19 to_layer=2 to_cats=2
@@ -133,9 +133,9 @@ v.net.distance input=xarxa_completa output=distancia_xarxa_expl arc_type=line fr
 
 ### 2.3 Obtenció de les distancies i les rutes, entre tots els elements d'una mostra.
 
-- El següent exercici que podem dur a terme amb les eïnes d'anàlisis de xarxes de GRASS GIS, és l'obtenció de les rutes i les distàncies existents entre tots els punts d'una mostra (n-m), a través de la xarxa i considerant o no, el cost que prèviament li haurem assignat (temps). En cas contrari, les distàncies que s'obtindran seran en les unitats del projecte/capa (per defecte, metres en sistemes UTM). L'eina que ens permet dur a terme aquest càlcul es **v.net.allpairs** que es troba al menú Vecor > Network Analysis.
+- El següent exercici que podem dur a terme amb les eines d'anàlisis de xarxes de GRASS GIS, és l'obtenció de les rutes i les distàncies existents entre tots els punts d'una mostra (n-m), a través de la xarxa i considerant o no, el cost que prèviament li haurem assignat (temps). En cas contrari, les distàncies que s'obtindran seran en les unitats del projecte/capa (per defecte, metres en sistemes UTM). L'eina que ens permet dur a terme aquest càlcul es **v.net.allpairs** que es troba al menú Vecor > Network Analysis.
 
-- A la finestra emergent, caldrà indicar sobre quina capa de xarxa treballarem, quin layer conté la informació sobre els nodes, la categoria o l'id d'aquests nodes i, finalment, la columna que emmagatzem els costos associats al desplaçament:
+- A la finestra emergent, caldrà indicar sobre quina capa de xarxa treballarem, quin _layer_ conté la informació sobre els nodes, la categoria o l'id d'aquests nodes i, finalment, la columna que emmagatzem els costos associats al desplaçament:
 
 ```python
 v.net.allpairs input=xarxa_completa out=distancia_tots node_layer=3 cats=65,43,40,18 arc_column=cost
@@ -144,20 +144,20 @@ v.net.allpairs input=xarxa_completa out=distancia_tots node_layer=3 cats=65,43,4
 
 ### 2.4 Obtenció de mesures de centralitat, proximitat, intermediació
 
-- L'anàlisis de xarxes amb GRASS GIS també ofereix la posibilitat d'analitzar numèricament la localització d'un conjunt de nodes distribuits per la xarxa. Aquestes mesures de centralitat ens l'ofereix l'eina **v.net.centrality**.
+- L'anàlisi de xarxes amb GRASS GIS també ofereix la possibilitat d'analitzar numèricament la localització d'un conjunt de nodes distribuits per la xarxa. Aquestes mesures de centralitat ens l'ofereix l'eina **v.net.centrality**.
 
 ```python
 v.net.centrality input=xarxa_completa out=mesures_centralitat cats=1-3 arc_column=cost degree=grau_centralitat closeness=proximitat betweenness=intermediacio eigenvector=centralitat_vector
 ```
 - El valor relatiu al paràmetre _Closeness centrality_ o **Centralitat de proximitat**, mesura quin és el node que és més proper a la resta de nodes que conformen la xarxa. Aquest valor, és la mitja de les distancies més properes entre un node i la resta de nodes de la xarxa. Quant més baix és el valor, més elevada és la seva **centralitat de proximitat**.
 
-- Aplicant aquesta mesura entre les explotacions de la xarxa, podem comprobar com en colors més vius o foscos es mostren aquelles explotacions que mostren un més elevat valor de proximitat.
+- Aplicant aquesta mesura entre les explotacions de la xarxa, podem comprovar com en colors més vius o foscos es mostren aquelles explotacions que mostren un més elevat valor de proximitat.
 
 ![closeness](/_static/closeness.jpg)
 
 - El valor de intermediació _Betweenness centrality_ o **Centralitat d'intermediació** mesura com d'important és un node en relació a la resta de nodes de la xarxa. En altres paraules, mesura com d'entremig es troba un node entre la resta, o quantes vegades es fa servir un node per moure's d'un node a un altre de la xarxa.
 
-- Aquesta mesura ens indica la freqüència amb la que un node apareix en el camí més curt que connecta altres dos nodes. Aquest paràmetre és important perquè un node amb elevada centralitat d’intermediació pot controlar el flux de la informació, mercaderies, etc., que es difon a través d’una xarxa.
+- Aquesta mesura ens indica la freqüència amb la que un node apareix en el camí més curt que connecta altres dos nodes. Aquest paràmetre és important perquè un node amb elevada centralitat d’intermediació pot controlar el flux de la informació, mercaderies, etc., que es difon a través d'una xarxa.
 
 ![betweenness](/_static/betweenness.jpg)
 
@@ -165,7 +165,7 @@ v.net.centrality input=xarxa_completa out=mesures_centralitat cats=1-3 arc_colum
 
 ### 2.5 Resolució del problema de Steiner
 
-- Donat un núvol de punts, o terminals, representats en aquest cas bés per les plantes de gestió bé per les explotacions, es vol interconnectar-los utilitzant la distancia rectilínia de manera que es minimitzi la longitud total dels segments usats. En el cas de no utilitzar cap valor de costa associat als arcs, el resultat es basa únicament en la distancia:
+- Donat un núvol de punts, o terminals, representats en aquest cas bé per les plantes de gestió bé per les explotacions, es vol interconnectar-los utilitzant la distancia rectilínia de manera que es minimitzi la longitud total dels segments usats. En el cas de no utilitzar cap valor de costa associat als arcs, el resultat es basa únicament en la distancia:
 
 ```python
 v.net.steiner input=xarxa_completa out=steiner_nocost arc_type=line node_layer=3 terminal_cats=1-66
@@ -193,7 +193,7 @@ v.net.steiner input=xarxa_completa out=steiner_plantes_cost arc_type=line acolum
 
 ### 2.6 Resolució del problema del comercial (salesman)
 
-- El problema del comercial és un problema clàssic de l'anàlisis de xarxes. L'algoritme en qüestió és l'encarregat de calcular la ruta òptima per tal de visitar tots els nodes d'una xarxa. Els costos associats a la xarxa pot ser la propia longitud dels arcs, així com qualsevol altre valor calculat i emmagatzemat en la taula d'atributs de la capa. Com en tots els anàlisis de xarxes creats amb GRASS GIS, el valor -1 es reserva per a tancar arcs pels quals no es vol permetre la circulació.
+- El problema del comercial és un problema clàssic de l'anàlisi de xarxes. L'algoritme en qüestió és l'encarregat de calcular la ruta òptima per tal de visitar tots els nodes d'una xarxa. Els costos associats a la xarxa pot ser la pròpia longitud dels arcs, així com qualsevol altre valor calculat i emmagatzemat en la taula d'atributs de la capa. Com en tots els anàlisis de xarxes creats amb GRASS GIS, el valor -1 es reserva per a tancar arcs pels quals no es vol permetre la circulació.
 
 ```python
 v.net.salesman input=xarxa_completa out=comercial_plantes_cost center_cats=1-3 arc_type=line arc_column=cost
@@ -209,7 +209,7 @@ v.net.salesman input=xarxa_completa out=salesman_explotacions center_cats=17,1,5
 
 ![salesman_explotacions](/_static/salesman_explotacions.jpg)
 
-- Com en tots els casos anteriors, es aquest tipus d'anàlisis es pot dur a terme emprant una columna o valor de cost associats als arcs de la xarxa, o realitzar aquest càlcul sense considerar cap altre cost que no sigui la propia longitud dels arcs que la conformen. En aquests casos, la ruta obtinguda acostuma a ser més circular, evitant gairebé sempre, recórrer dues vegades el mateix arc durant la ruta:
+- Com en tots els casos anteriors, es aquest tipus d'anàlisis es pot dur a terme emprant una columna o valor de cost associats als arcs de la xarxa, o realitzar aquest càlcul sense considerar cap altre cost que no sigui la pròpia longitud dels arcs que la conformen. En aquests casos, la ruta obtinguda acostuma a ser més circular, evitant gairebé sempre, recórrer dues vegades el mateix arc durant la ruta:
 
 ![salesman_explotacions_nocost](/_static/salesman_explotacions_nocost.jpg)
 
