@@ -191,7 +191,7 @@ v.net.steiner input=xarxa_completa out=steiner_plantes_cost arc_type=line acolum
 ![steiner_plantes](/_static/steiner_plantes.jpg)
 
 
-### 2.6 Resolució del problema del comercial (salesman)
+### 2.6 Resolució del problema del comercial (_salesman_)
 
 - El problema del comercial és un problema clàssic de l'anàlisi de xarxes. L'algoritme en qüestió és l'encarregat de calcular la ruta òptima per tal de visitar tots els nodes d'una xarxa. Els costos associats a la xarxa pot ser la pròpia longitud dels arcs, així com qualsevol altre valor calculat i emmagatzemat en la taula d'atributs de la capa. Com en tots els anàlisis de xarxes creats amb GRASS GIS, el valor -1 es reserva per a tancar arcs pels quals no es vol permetre la circulació.
 
@@ -213,5 +213,30 @@ v.net.salesman input=xarxa_completa out=salesman_explotacions center_cats=17,1,5
 
 ![salesman_explotacions_nocost](/_static/salesman_explotacions_nocost.jpg)
 
+### 2.7 Definició d'àrees de servei (_allocation_)
+
+- Donat un conjunt de centres, es poden definir un conjunt d'àrees bàsiques a les quals cadascun d'aquests centres o nodes que actuen com a proveïdors de serveis, tenint en compte (o no) el cost que suposa desplaçar-se per la xarxa. El resultat final, assigna cada arc de la xarxa a un centre i un arc, només pot pertanyer a un únic centre.   
+
+```python
+v.net.alloc input=xarxa_completa output=area_servei_cost center_cats=1-3 arc_column=cost
+```
+
+![allocation](/_static/allocation.jpg)
 
 
+### 2.8 Definició d'isocrones de temps (_isolines_)
+
+- El darrer anàlisi d'aquest document, és la generació d'iscrones temporals a l'entorn d'una o més plantes de gestió de residus ramaders de la comarca. Tenint en compte que els valor de cost que s'emmagatzema en la columna **[cost]** representa el temps en segons, que es triga a recorrer cadascun dels arcs, podem definir les nostres isocrones a l'entorn de la planta #2, a intervals de 5 minuts (300,600,900):
+
+```python
+v.net.iso -u input=xarxa_completa@xarxes output=isolines_planta2 center_cats=2 costs=300,600,900 arc_column=cost
+```
+
+![isocrones](/_static/isocrones.jpg)
+
+- O també es pot fer, utilitzant les tres plantes alhora:
+
+
+![isocrones2](/_static/isocrones2.jpg)
+
+-----
