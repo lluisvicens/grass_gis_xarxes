@@ -162,3 +162,30 @@ v.net.centrality input=xarxa_completa out=mesures_centralitat cats=1-3 arc_colum
 ![betweenness](/_static/betweenness.jpg)
 
 - Els nodes amb un valor més elevat d'intermediació són també aquells que, en cas d'eliminar-los de la xarxa, afectaran més a la comunicació entre nodes doncs es troben en el major nombre de rutes entre nodes.
+
+### 2.5 Resolució del problema de Steiner
+
+- Donat un núvol de punts, o terminals, representats en aquest cas bés per les plantes de gestió bé per les explotacions, es vol interconnectar-los utilitzant la distancia rectilínia de manera que es minimitzi la longitud total dels segments usats. En el cas de no utilitzar cap valor de costa associat als arcs, el resultat es basa únicament en la distancia:
+
+```python
+v.net.steiner input=xarxa_completa out=steiner_nocost arc_type=line node_layer=3 terminal_cats=1-66
+```
+
+![steiner_nocost](/_static/steiner_nocost.jpg)
+
+- Si per contra, afegim una columna de cost, l'arbre mínim de Steiner es basarà en els valors emmagatzemats en l'esmentat o columna: [cost]
+
+```python
+v.net.steiner input=xarxa_completa out=steiner_cost arc_type=line node_layer=3 acolumn=cost terminal_cats=1-66
+```
+
+![steiner_cost](/_static/steiner_cost.jpg)
+
+- De la mateixa manera que podem aplicar aquesta resolució a les explotacions, podem fer-ho també entre les tres plantes de gestió de residus ramaders de la comarca, amb i sense cost:
+
+```python
+v.net.steiner input=xarxa_completa out=steiner_plantes_nocost arc_type=line terminal_cats=1-3
+v.net.steiner input=xarxa_completa out=steiner_plantes_cost arc_type=line acolumn=cost terminal_cats=1-3
+```
+
+![steiner_plantes](/_static/steiner_plantes.jpg)
