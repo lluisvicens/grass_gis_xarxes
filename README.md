@@ -209,4 +209,9 @@ v.net.salesman input=xarxa_completa out=salesman_explotacions center_cats=17,1,5
 
 ![salesman_explotacions](/_static/salesman_explotacions.jpg)
 
+- Com en tots els casos anteriors, es aquest tipus d'anàlisis es pot dur a terme emprant una columna o valor de cost associats als arcs de la xarxa, o realitzar aquest càlcul sense considerar cap altre cost que no sigui la propia longitud dels arcs que la conformen. En aquests casos, la ruta obtinguda acostuma a ser més circular, evitant gairebé sempre, recórrer dues vegades el mateix arc durant la ruta:
+
+![salesman_explotacions_nocost](/_static/salesman_explotacions_nocost.jpg)
+
+
 
