@@ -189,3 +189,14 @@ v.net.steiner input=xarxa_completa out=steiner_plantes_cost arc_type=line acolum
 ```
 
 ![steiner_plantes](/_static/steiner_plantes.jpg)
+
+
+### 2.6 Resolució del problema del comercial (salesman)
+
+- El problema del comercial és un problema clàssic de l'anàlisis de xarxes. L'algoritme en qüestió és l'encarregat de calcular la ruta òptima per tal de visitar tots els nodes d'una xarxa. Els costos associats a la xarxa pot ser la propia longitud dels arcs, així com qualsevol altre valor calculat i emmagatzemat en la taula d'atributs de la capa. Com en tots els anàlisis de xarxes creats amb GRASS GIS, el valor -1 es reserva per a tancar arcs pels quals no es vol permetre la circulació.
+
+```python
+v.net.salesman input=xarxa_completa out=comercial_plantes_cost center_cats=1-3 arc_type=line arc_column=cost
+```
+
+![salesman_plantes](/_static/salesman_plantes.jpg)
